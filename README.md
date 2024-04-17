@@ -2,10 +2,10 @@
 
 This repo provides the scripts and instructions to build a custom VLM using the [Prismatic VLM](https://github.com/TRI-ML/prismatic-vlms) repository. The model details are as follows,
 
-* Vision Encoder - SigLIP@384px
-* Connector - MLP
-* Language Model - Phi2 with LoRA
-* Train Dataset - LLAVA + LVIS + LRV-Instruct
+* **Vision Encoder** - SigLIP@384px
+* **Connector** - MLP
+* **Language Model** - Phi2 with LoRA
+* **Train Dataset** - LLAVA + LVIS + LRV-Instruct
 
 ---
 
