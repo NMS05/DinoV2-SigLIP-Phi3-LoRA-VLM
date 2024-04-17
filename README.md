@@ -1,6 +1,6 @@
 # Prismatic SigLIP-Phi2(LoRA) VLM
 
-This repo provides the scripts and instructions to build a custom VLM using the [Prismaric VLM](https://github.com/TRI-ML/prismatic-vlms) repository. The model details are as follows,
+This repo provides the scripts and instructions to build a custom VLM using the [Prismatic VLM](https://github.com/TRI-ML/prismatic-vlms) repository. The model details are as follows,
 
 * Vision Encoder - SigLIP@384px
 * Connector - MLP
