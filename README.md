@@ -58,7 +58,7 @@ The entry point for training models is [`scripts/pretrain.py`](scripts/pretrain.
 torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 ```
 
-<img src="" width="500" height="250">
+<img src="https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/main/assets/finetune_loss.png" width="500" height="250">
 
 ### Model Weights
 
@@ -71,7 +71,7 @@ torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 
 Use the notebook [`scripts/inference.ipynb`](scripts/inference.ipynb) to chat with the model.
 
-<img src="" width="500" height="250">
+<img src="https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/main/assets/test_image.png" width="400" height="400">
 
 ### Model Output
 
