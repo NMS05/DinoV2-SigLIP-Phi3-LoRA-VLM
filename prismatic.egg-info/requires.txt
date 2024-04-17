@@ -1,0 +1,18 @@
+accelerate>=0.25.0
+draccus@ git+https://github.com/dlwh/draccus
+einops
+jsonlines
+rich
+timm>=0.9.10
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio
+transformers==4.34.1
+wandb
+
+[dev]
+black
+gpustat
+ipython
+pre-commit
+ruff

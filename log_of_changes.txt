@@ -1,0 +1,33 @@
+main title
+- brief note on what this repo is about
+
+Installation
+- acknowledge repo and installation
+
+Dataset
+- root dir "prismatic-vlms/training_data/"
+
+Steps to add a new LLM (Phi2)
+- Phi2 model from HuggingFace repo is added in prismatic/models/backbones/llm/phi2.py. Since Phi2 is not instruction tuned, there are no constraints for a specific prompt template.
+- LoRA layers are added in prismatic/models/backbones/llm/base_llm.py
+- update prismatic/models/backbones/llm/__init__.py
+- get_peft_model() from HF freezes LLM layers and finetunes only LoRA params. Make sure to comment line-153 in prismatic/models/vlms/prismatic.py 
+- update LLM registry in prismaric/models/materialize.py
+- understand_model.ipynb
+
+Training
+- system details
+- run command
+- model weights
+
+Inference
+- generate.py
+- inference.ipynb
+
+Note
+- objective of this repo
+- areas to improve
+- to do
+
+Citation
+- 
