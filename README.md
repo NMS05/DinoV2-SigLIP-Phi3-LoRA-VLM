@@ -58,7 +58,7 @@ The entry point for training models is [`scripts/pretrain.py`](scripts/pretrain.
 torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 ```
 
-<img src="https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/main/assets/finetune_loss.png" width="500" height="250">
+<img src="https://github.com/NMS05/DinoV2-SigLIP-Phi3-LoRA-VLM/blob/main/assets/finetune_loss.png" width="500" height="250">
 
 ### Model Weights
 
@@ -72,19 +72,18 @@ torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 
 Use the notebook [`scripts/inference.ipynb`](scripts/inference.ipynb) to chat with the model.
 
-<img src="https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/main/assets/test_image.png" width="400" height="400">
+<img src="https://github.com/NMS05/DinoV2-SigLIP-Phi3-LoRA-VLM/blob/main/assets/test_image.jpg" width="400" height="400">
 
 ### Model Output
 
 ```
-Q: "What is written on the boat?"
-A: The boat has a blue and white flag with the words "Blue Art" written on it.
+Instruction: "Provide a detailed description of the given image."
 
-Q: "How many people do you see in this picture?"
-A: I see two people in this picture.
+Response:
 
-Q: "Is any of them wearing green colored dress?"
-A: Yes, one of the people in the picture is wearing a green colored dress. (** Hallucination!!)
+  The image features a dining table with a white plate containing a breakfast meal. The plate is filled with various food items, including eggs, toast, and orange slices. There are also a couple of sandwiches on the plate.
+  In addition to the plate, there are several cups and a bottle placed on the table. A knife and a fork can be seen near the plate, ready for use. The table is surrounded by multiple chairs, with some people sitting on them, enjoying their meal. The scene appears to be a casual dining setting, with people gathered around the table to share a meal together.
+
 ```
 
 
