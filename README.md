@@ -1,4 +1,4 @@
-# Prismatic SigLIP-Phi2(LoRA) VLM
+# DinoV2-SigLIP-Phi3(LoRA) VLM
 
 This repo provides the scripts and instructions to build a custom VLM using the [Prismatic VLM](https://github.com/TRI-ML/prismatic-vlms) repository. The model details are as follows,
 
@@ -58,7 +58,7 @@ The entry point for training models is [`scripts/pretrain.py`](scripts/pretrain.
 torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 ```
 
-<img src="https://github.com/NMS05/DinoV2-SigLIP-Phi3-LoRA-VLM/blob/main/assets/finetune_loss.png" width="500" height="250">
+<img src="https://github.com/NMS05/DinoV2-SigLIP-Phi3-LoRA-VLM/blob/main/assets/loss_curve.png" width="500" height="250">
 
 ### Model Weights
 
@@ -78,11 +78,10 @@ Use the notebook [`scripts/inference.ipynb`](scripts/inference.ipynb) to chat wi
 
 ```
 Instruction: "Provide a detailed description of the given image."
-
 Response:
-
-  The image features a dining table with a white plate containing a breakfast meal. The plate is filled with various food items, including eggs, toast, and orange slices. There are also a couple of sandwiches on the plate.
-  In addition to the plate, there are several cups and a bottle placed on the table. A knife and a fork can be seen near the plate, ready for use. The table is surrounded by multiple chairs, with some people sitting on them, enjoying their meal. The scene appears to be a casual dining setting, with people gathered around the table to share a meal together.
+The image features a dining table with a white plate containing a breakfast meal. The plate is filled with various food items, including eggs, toast, and orange slices.
+There are also a couple of sandwiches on the plate. In addition to the plate, there are several cups and a bottle placed on the table. A knife and a fork can be seen near the plate, ready for use.
+The table is surrounded by multiple chairs, with some people sitting on them, enjoying their meal. The scene appears to be a casual dining setting, with people gathered around the table to share a meal together.
 
 ```
 
