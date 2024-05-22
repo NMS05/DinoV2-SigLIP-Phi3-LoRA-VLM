@@ -31,7 +31,7 @@ python scripts/preprocess.py --dataset_id "llava-laion-cc-sbu-558k" --root_dir t
 
 python scripts/preprocess.py --dataset_id "llava-v1.5-instruct" --root_dir training_data/
 ```
-Instructions and scripts for downloading LVIS and LRV-Instruct datasets can be found in [`scripts/additional-datasets`](scripts/additional-datasets).
+Instructions and scripts for downloading LRV-Instruct datasets can be found in [`scripts/additional-datasets`](scripts/additional-datasets).
 
 
 ---
@@ -39,7 +39,7 @@ Instructions and scripts for downloading LVIS and LRV-Instruct datasets can be f
 ## Steps to add a new LLM (Phi3 + LoRA)
 1. **LLM and LoRA Config:** The [microsoft/Phi-3-mini-4k-instruct](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct) model from HuggingFace is added in [`prismatic/models/backbones/llm/phi3.py`](prismatic/models/backbones/llm/phi3.py). The LoRA configuration is also specified here.
 2. **Instruction Template:** Phi3 is intruction tuned and follows a specific prompt template [`prismatic/models/backbones/llm/prompting/phi3_chat_prompter.py`](prismatic/models/backbones/llm/prompting/phi3_chat_prompter.py).
-3. **LoRA:** From the configuration in 1, the LoRA layers are added to the base LLM (phi-3) using the [HuggingFace PEFT](https://huggingface.co/docs/peft/en/task_guides/lora_based_methods) library in [`prismatic/models/backbones/llm/base_llm.py`](prismatic/models/backbones/llm/base_llm.py)
+3. **LoRA:** From the LoRA configuration in 1, the LoRA layers are added to the base LLM (phi-3) using the [HuggingFace PEFT](https://huggingface.co/docs/peft/en/task_guides/lora_based_methods) library in [`prismatic/models/backbones/llm/base_llm.py`](prismatic/models/backbones/llm/base_llm.py)
 4. **Freeze LLM Params:** The get_peft_model() function freezes the LLM layers and finetunes only LoRA params. Make sure to comment line-153 in [`prismatic/models/vlms/prismatic.py`](prismatic/models/vlms/prismatic.py), which finetunes the entire LLM.
 5. **Update Entries:** Update [`prismatic/models/backbones/llm/__init__.py`](prismatic/models/backbones/llm/__init__.py) with the new LLM.
 6. **Update Entries:** Update LLM_BACKBONES registry in [`prismatic/models/materialize.py`](prismatic/models/materialize.py)
@@ -50,7 +50,8 @@ Instructions and scripts for downloading LVIS and LRV-Instruct datasets can be f
 ## Training
 
 The entry point for training models is [`scripts/pretrain.py`](scripts/pretrain.py). Specify the desired model config, dataset config, stage (align or fine-tune) etc.
-**Note:** set enable_peft to False in [`prismatic/models/backbones/llm/phi3.py`](prismatic/models/backbones/llm/phi3.py) (line 63), for "align" stage training.
+
+**Note:** set enable_peft = False in [`prismatic/models/backbones/llm/phi3.py`](prismatic/models/backbones/llm/phi3.py) (line 63), for "align" stage training.
 
 ```bash
 # Run from the root of the repository
