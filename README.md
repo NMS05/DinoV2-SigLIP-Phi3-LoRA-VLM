@@ -2,10 +2,10 @@
 
 This repo provides the scripts and instructions to build a custom VLM using the [Prismatic VLM](https://github.com/TRI-ML/prismatic-vlms) repository. The model details are as follows,
 
-* **Vision Encoder** - SigLIP@384px
-* **Connector** - MLP
-* **Language Model** - Phi2 with LoRA
-* **Train Dataset** - LLAVA + LVIS + LRV-Instruct
+* **Vision Encoder** - DinoV2 + SigLIP @384px resolution. [Why 2 vision encoders?](https://arxiv.org/abs/2401.06209)
+* **Connector** - MLP (Dino and SigLIP features are concatenated and then projected to Phi3 representation space)
+* **Language Model** - Phi3 + LoRA
+* **Training Dataset** - LLAVA + LRV-Instruct
 
 ---
 
@@ -36,22 +36,21 @@ Instructions and scripts for downloading LVIS and LRV-Instruct datasets can be f
 
 ---
 
-## Steps to add a new LLM (Phi2 + LoRA)
-1. The [microsoft/phi-2](https://huggingface.co/microsoft/phi-2) model from HuggingFace is added in [`prismatic/models/backbones/llm/phi2.py`](prismatic/models/backbones/llm/phi2.py). Since Phi2 is not instruction tuned, there are no constraints for a specific prompt template.
-2. Next LoRA layers are added to the base LLM (phi-2) in [`prismatic/models/backbones/llm/base_llm.py`](prismatic/models/backbones/llm/base_llm.py)
-3. The get_peft_model() function freezes the LLM layers and finetunes only LoRA params. Make sure to comment line-153 in [prismatic/models/vlms/prismatic.py](https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/3a317483d1ec888395fa36158f7ff54f96b7b639/prismatic/models/vlms/prismatic.py#L153), which finetunes the entire LLM.
-4. Update [`prismatic/models/backbones/llm/__init__.py`](prismatic/models/backbones/llm/__init__.py) with the new LLM.
-5. Update LLM_BACKBONES registry in [`prismatic/models/materialize.py`](prismatic/models/materialize.py)
-6. Finally add a new entry for your entire VLM in [prismatic/conf/models.py](https://github.com/NMS05/Prismatic-SigLIP-Phi2-LoRA-VLM/blob/3a317483d1ec888395fa36158f7ff54f96b7b639/prismatic/conf/models.py#L442). This is also where you specify the Vision Backbone, Connector type (linear or MLP), and the image resizing strategy.
-
-
-Use the notebook [`scripts/understand_model.ipynb`](scripts/understand_model.ipynb) to check if everything is in order.
+## Steps to add a new LLM (Phi3 + LoRA)
+1. **LLM and LoRA Config:** The [microsoft/Phi-3-mini-4k-instruct](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct) model from HuggingFace is added in [`prismatic/models/backbones/llm/phi3.py`](prismatic/models/backbones/llm/phi3.py). The LoRA configuration is also specified here.
+2. **Instruction Template:** Phi3 is intruction tuned and follows a specific prompt template [`prismatic/models/backbones/llm/prompting/phi3_chat_prompter.py`](prismatic/models/backbones/llm/prompting/phi3_chat_prompter.py).
+3. **LoRA:** From the configuration in 1, the LoRA layers are added to the base LLM (phi-3) using the [HuggingFace PEFT](https://huggingface.co/docs/peft/en/task_guides/lora_based_methods) library in [`prismatic/models/backbones/llm/base_llm.py`](prismatic/models/backbones/llm/base_llm.py)
+4. **Freeze LLM Params:** The get_peft_model() function freezes the LLM layers and finetunes only LoRA params. Make sure to comment line-153 in [`prismatic/models/vlms/prismatic.py`](prismatic/models/vlms/prismatic.py), which finetunes the entire LLM.
+5. **Update Entries:** Update [`prismatic/models/backbones/llm/__init__.py`](prismatic/models/backbones/llm/__init__.py) with the new LLM.
+6. **Update Entries:** Update LLM_BACKBONES registry in [`prismatic/models/materialize.py`](prismatic/models/materialize.py)
+7. **Update Entries:** Finally add a new entry for your entire VLM in [`prismatic/conf/models.py`](prismatic/conf/models.py). This is also where you specify the Vision Backbone, Connector type (linear or MLP), and the image resizing strategy.
 
 ---
 
 ## Training
 
 The entry point for training models is [`scripts/pretrain.py`](scripts/pretrain.py). Specify the desired model config, dataset config, stage (align or fine-tune) etc.
+**Note:** set enable_peft to False in [`prismatic/models/backbones/llm/phi3.py`](prismatic/models/backbones/llm/phi3.py) (line 63), for "align" stage training.
 
 ```bash
 # Run from the root of the repository
@@ -62,7 +61,7 @@ torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 
 ### Model Weights
 
-- The weights for the "align" stage (trains MLP connector) and the "finetune" stage (requires MLP weights and trains MLP+LoRA) is available in [HuggingFace](https://huggingface.co/nms05/SigLIP_Phi2_LoRA_VLM).
+- The weights for the "align" stage (trains MLP connector) and the "finetune" stage (requires MLP weights and trains MLP+LoRA) is available in [HuggingFace](https://huggingface.co/nms05/Dinov2-SigLIP-Phi3-LoRA/tree/main).
 - Download them to runs/
 - For training hyperparameters, refer to the config files.
 
@@ -70,7 +69,7 @@ torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 
 ## Inference
 
-Use the notebook [`scripts/inference.ipynb`](scripts/inference.ipynb) to chat with the model.
+Run [`scripts/generate.py`](scripts/generate.py) to chat with the model via terminal.
 
 <img src="https://github.com/NMS05/DinoV2-SigLIP-Phi3-LoRA-VLM/blob/main/assets/test_image.jpg" width="400" height="400">
 
