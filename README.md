@@ -8,6 +8,16 @@ This repo provides the scripts and instructions to build a custom VLM using the 
 * **Pre-train (Align) Dataset** - LLaVA-CC3M-Pretrain-595K
 * **Fine-tune (Instruction) Dataset** - LLAVA-v1.5-Instruct + LRV-Instruct
 
+### Performance
+
+|   Dataset    | VQAv2 | POPE | AI2D | TextVQA |
+|--------------|-------|------|------|---------|
+| Accuracy (%) | 63.3  | 86.3 | 58.9 | 46.8    |
+
+### Model Weights
+
+The weights for "align" and "finetune" stage is available in [nms05/Dinov2-SigLIP-Phi3-LoRA](https://huggingface.co/nms05/Dinov2-SigLIP-Phi3-LoRA/tree/main).
+
 ---
 
 ## Installation
@@ -63,7 +73,7 @@ torchrun --standalone --nnodes 1 --nproc-per-node 8 scripts/pretrain.py
 
 ### Model Weights
 
-- The weights for the "align" stage (trains MLP connector) and the "finetune" stage (requires MLP weights and trains MLP+LoRA) is available in [HuggingFace](https://huggingface.co/nms05/Dinov2-SigLIP-Phi3-LoRA/tree/main).
+- The weights for the "align" stage (trains MLP connector) and the "finetune" stage (requires MLP weights and trains MLP+LoRA) is available in [nms05/Dinov2-SigLIP-Phi3-LoRA](https://huggingface.co/nms05/Dinov2-SigLIP-Phi3-LoRA/tree/main).
 - Download them to runs/
 - For training hyperparameters, refer to the config files.
 
